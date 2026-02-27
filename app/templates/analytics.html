@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Category Spending Analytics</h2>
+
+    <!-- FILTER FORM -->
+    <div class="card p-3 shadow-sm mb-4">
+        <form method="GET" action="{{ url_for('main.analytics') }}">
+            <div class="row align-items-end">
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Month</label>
+                    <select name="month" class="form-select">
+                        {% set month_names = [
+                            "January","February","March","April","May","June",
+                            "July","August","September","October","November","December"
+                        ] %}
+                        {% for m in range(1,13) %}
+                            <option value="{{ m }}"
+                                {% if m == selected_month %}selected{% endif %}>
+                                {{ month_names[m-1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Year</label>
+                    <select name="year" class="form-select">
+                        {% for y in years %}
+                            <option value="{{ y }}"
+                                {% if y == selected_year %}selected{% endif %}>
+                                {{ y }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        View
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <hr>
+
+    {% if labels and labels|length > 0 %}
+
+        <div class="card shadow-sm p-4">
+            <div class = " w-100"style="max-width:450px; margin:auto;">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="alert alert-info text-center mt-4">
+            No expenses recorded for this period.
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = {{ labels | tojson }};
+    const values = {{ values | tojson }};
+
+    if (Array.isArray(labels) && labels.length > 0) {
+
+        const canvas = document.getElementById('pieChart');
+
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: [
+                            '#ff6384','#36a2eb','#ffce56',
+                            '#4bc0c0','#9966ff','#ff9f40',
+                            '#c9cbcf','#8dd17e','#ff7f50','#6495ed'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ₹ ' + context.raw.toFixed(2);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+{% endblock %}
