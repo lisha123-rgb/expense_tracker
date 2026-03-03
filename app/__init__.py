@@ -27,6 +27,23 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+        from app.models import Category
+
+        default_categories = [
+            "Food",
+            "Travel",
+            "Shopping",
+            "Bills",
+            "Entertainment",
+            "Others"
+        ]
+
+        for name in default_categories:
+            if not Category.query.filter_by(name=name).first():
+                db.session.add(Category(name=name))
+
+        db.session.commit()
+
     return app
 
 
