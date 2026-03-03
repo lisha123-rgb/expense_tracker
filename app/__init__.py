@@ -18,12 +18,14 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
-
-    # THIS LINE IS CRITICAL
     csrf.init_app(app)
 
     from app.routes import main
     app.register_blueprint(main)
+
+    # ✅ Create tables automatically (production safe)
+    with app.app_context():
+        db.create_all()
 
     return app
 
