@@ -5,6 +5,7 @@ from app import db
 from sqlalchemy import func
 from datetime import datetime
 from app.utils import auto_detect_category 
+from flask import abort
 
 main = Blueprint("main", __name__)
 
@@ -308,3 +309,66 @@ def delete_expense(expense_id):
 
     flash("Expense deleted successfully")
     return redirect(url_for("main.dashboard"))
+
+# -------------------------
+# EDIT EXPENSE
+# -------------------------
+@main.route("/edit-expense/<int:expense_id>", methods=["GET", "POST"])
+@login_required
+def edit_expense(expense_id):
+
+    expense = Expense.query.get_or_404(expense_id)
+
+    # Only owner can edit
+    if expense.user_id != current_user.id:
+        abort(403)
+
+    if request.method == "POST":
+        try:
+            expense.amount = float(request.form["amount"])
+            expense.description = request.form["description"].strip()
+            expense.date = datetime.strptime(
+                request.form["date"], "%Y-%m-%d"
+            ).date()
+
+            category_id = request.form.get("category_id")
+
+            # If category selected manually
+            if category_id:
+                category = Category.query.get(int(category_id))
+                if category:
+                    expense.category_id = category.id
+                else:
+                    flash("Invalid category", "danger")
+                    return redirect(url_for("main.dashboard"))
+
+            # If no category → auto detect
+            else:
+                predicted_name = auto_detect_category(expense.description)
+
+                category = Category.query.filter_by(name=predicted_name).first()
+
+                if not category:
+                    category = Category(name=predicted_name)
+                    db.session.add(category)
+                    db.session.commit()
+
+                expense.category_id = category.id
+
+            db.session.commit()
+            flash("Expense updated successfully", "success")
+
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            flash("Error updating expense", "danger")
+
+        return redirect(url_for("main.dashboard"))
+
+    categories = Category.query.all()
+
+    return render_template(
+        "edit_expense.html",
+        expense=expense,
+        categories=categories
+    )

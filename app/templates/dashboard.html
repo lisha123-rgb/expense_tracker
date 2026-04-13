@@ -3,113 +3,103 @@
 
 <div class="container mt-4">
 
-    <h2 class="mb-4">Dashboard</h2>
+    <h2 class="mb-4 fw-bold">Dashboard</h2>
 
     <!-- YEAR FILTER -->
-    <div class="card p-3 mb-4 shadow-sm">
-        <form method="GET">
-            <div class="row align-items-center">
-                <div class="col-md-3">
-                    <label class="form-label fw-bold">Select Year</label>
-                </div>
-                <div class="col-md-3">
+    <div class="card custom-card p-4 mb-4">
+
+        <div class="row align-items-center mb-4">
+            <div class="col-md-2 fw-semibold">
+                Select Year
+            </div>
+            <div class="col-md-10">
+                <form method="GET">
                     <select name="year" class="form-select" onchange="this.form.submit()">
                         {% for y in years %}
-                            <option value="{{ y }}"
-                                {% if y == selected_year %}selected{% endif %}>
-                                {{ y }}
-                            </option>
+                        <option value="{{ y }}"
+                            {% if y == selected_year %}selected{% endif %}>
+                            {{ y }}
+                        </option>
                         {% endfor %}
                     </select>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- TOTAL CARDS -->
-    <div class="row mb-4">
-        <div class="col 12 col-md-6">
-            <div class="card text-white bg-primary shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Year Total ({{ selected_year }})</h5>
-                    <h3>₹ {{ "%.2f"|format(yearly_total) }}</h3>
-                </div>
+                </form>
             </div>
         </div>
 
-        <div class="col 12col-md-6">
-            <div class="card text-white bg-dark shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Overall Total</h5>
-                    <h3>₹ {{ "%.2f"|format(overall_total) }}</h3>
+        <!-- SUMMARY CARDS -->
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <div class="card summary-blue">
+                    <p>Year Total ({{ selected_year }})</p>
+                    <h2>₹ {{ "%.2f"|format(yearly_total) }}</h2>
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="card summary-dark">
+                    <p>Overall Total</p>
+                    <h2>₹ {{ "%.2f"|format(overall_total) }}</h2>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <!-- ADD EXPENSE -->
-    <div class="card p-4 mb-4 shadow-sm">
-        <h4>Add Expense</h4>
+    <div class="card custom-card p-4 mb-4">
+
+        <h4 class="mb-3">Add Expense</h4>
+
         <form method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <div class="row mb-3">
-                <div class="col-12 col-md">
-                    <input type="number"
-                           step="0.01"
-                           min="0.01"
-                           name="amount"
-                           class="form-control"
-                           placeholder="Amount"
-                           required>
+                <div class="col-md-6">
+                    <label>Amount</label>
+                    <input type="number" name="amount" class="form-control" placeholder="Amount" required>
                 </div>
-                <div class="col-12 col-md">
-                    <input type="text"
-                           name="description"
-                           class="form-control"
-                           placeholder="Description"
-                           maxlength="200"
-                           required>
+
+                <div class="col-md-6">
+                    <label>Description</label>
+                    <input type="text" name="description" class="form-control" placeholder="Description" required>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-12 col-md">
-                    <input type="date"
-                           name="date"
-                           class="form-control"
-                           required>
+                <div class="col-md-6">
+                    <label>Date</label>
+                    <input type="date" name="date" class="form-control" required>
                 </div>
-                <div class="col-12 col-md">
+
+                <div class="col-md-6">
+                    <label>Category</label>
                     <select name="category_id" class="form-select">
                         <option value="">Auto detect</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}">
-                                {{ category.name }}
-                            </option>
+                        {% for c in categories %}
+                        <option value="{{ c.id }}">{{ c.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
 
-            <button class="btn btn-success">Add Expense</button>
+            <button class="btn btn-success px-4">Add Expense</button>
+
         </form>
     </div>
 
-    <!-- EXPENSE TABLES -->
-    {% if expenses_by_month %}
-        {% for month, month_data in expenses_by_month.items() %}
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-light fw-bold">
-                    {{ month }} — Total: ₹ {{ "%.2f"|format(month_data["month_total"]) }}
-                </div>
+    <!-- EXPENSE TABLE -->
+    {% for month, data in expenses_by_month.items() %}
 
-                <div class="card-body">
+    <div class="card custom-card p-4 mb-4">
 
-    <!-- DESKTOP TABLE -->
-    <div class="d-none d-md-block">
+        <h5 class="mb-3">
+            {{ month }} — Total: ₹ {{ "%.2f"|format(data["month_total"]) }}
+        </h5>
+
         <div class="table-responsive">
-            <table class="table table-striped mb-0">
+            <table class="table align-middle">
+
                 <thead class="table-dark">
                     <tr>
                         <th>Amount</th>
@@ -119,14 +109,24 @@
                         <th>Action</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    {% for expense in month_data["items"] %}
+                    {% for expense in data["items"] %}
                     <tr>
                         <td>₹ {{ "%.2f"|format(expense.amount) }}</td>
                         <td>{{ expense.description }}</td>
                         <td>{{ expense.date }}</td>
                         <td>{{ expense.category.name }}</td>
-                        <td>
+
+                        <td class="d-flex gap-2">
+
+                            <!-- EDIT -->
+                            <a href="{{ url_for('main.edit_expense', expense_id=expense.id) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                Edit
+                            </a>
+
+                            <!-- DELETE -->
                             <form method="POST"
                                   action="{{ url_for('main.delete_expense', expense_id=expense.id) }}">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -134,56 +134,18 @@
                                     Delete
                                 </button>
                             </form>
+
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
+
             </table>
         </div>
+
     </div>
 
-    <!-- MOBILE CARD VIEW -->
-    <div class="d-block d-md-none">
-        {% for expense in month_data["items"] %}
-        <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between">
-                    <strong>₹ {{ "%.2f"|format(expense.amount) }}</strong>
-                    <small class="text-muted">{{ expense.date }}</small>
-                </div>
-
-                <p class="mb-1 mt-2">
-                    {{ expense.description }}
-                </p>
-
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                    <span class="badge bg-secondary">
-                        {{ expense.category.name }}
-                    </span>
-
-                    <form method="POST"
-                          action="{{ url_for('main.delete_expense', expense_id=expense.id) }}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button class="btn btn-danger btn-sm">
-                            Delete
-                        </button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
-</div>
-
-        {% endfor %}
-    {% else %}
-        <div class="alert alert-info">
-            No expenses for {{ selected_year }}.
-        </div>
-    {% endif %}
+    {% endfor %}
 
 </div>
 
