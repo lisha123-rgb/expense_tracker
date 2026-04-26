@@ -20,21 +20,21 @@
                        required>
             </div>
 
-            <!-- Password (Premium style with ONE icon) -->
+            <!-- Password -->
             <div class="mb-3 position-relative">
                 <label class="form-label fw-semibold">Password</label>
 
                 <input type="password"
                        name="password"
-                       id="password"
+                       id="loginPassword"
                        class="form-control pe-5"
                        placeholder="Enter your password"
                        required>
 
-                <!-- ONE ICON ONLY -->
-                <i class="bi bi-eye eye-icon"
-                   id="eyeIcon"
-                   onclick="togglePassword()"></i>
+                <i class="bi bi-eye position-absolute"
+                   style="right:15px; top:70%; transform:translateY(-50%); cursor:pointer;"
+                   onclick="togglePassword('loginPassword', this)">
+                </i>
             </div>
 
             <!-- Button -->
@@ -51,23 +51,5 @@
     </div>
 
 </div>
-
-<!-- JS -->
-<script>
-function togglePassword() {
-    const input = document.getElementById("password");
-    const icon = document.getElementById("eyeIcon");
-
-    if (!input || !icon) return;
-
-    if (input.type === "password") {
-        input.type = "text";
-        icon.classList.replace("bi-eye", "bi-eye-slash");
-    } else {
-        input.type = "password";
-        icon.classList.replace("bi-eye-slash", "bi-eye");
-    }
-}
-</script>
 
 {% endblock %}

@@ -1,43 +1,65 @@
-/* Background */
+/* =========================
+   GLOBAL BASE STYLES
+========================= */
 body {
-  background: linear-gradient(to bottom, #f3f4f6, #eef2ff);
   font-family: 'Segoe UI', sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Container */
+/* Layout spacing */
 .container {
-  max-width: 1100px;
+  padding: 20px;
+}
+
+section, .custom-card {
+  margin-bottom: 25px;
+}
+
+/* =========================
+   LIGHT MODE (DEFAULT)
+========================= */
+body {
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 /* Cards */
 .custom-card {
-  background: white;
+  background: #ffffff;
   border-radius: 16px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
-/* Forms */
+/* Inputs */
 .form-control,
 .form-select {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
-  padding: 10px;
 }
 
-/* Eye icon (FIXED for mobile) */
-.eye-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #6b7280;
-  font-size: 18px;
+.form-control::placeholder {
+  color: #64748b;
 }
 
-.eye-icon:hover {
-  color: #4f46e5;
+/* Table */
+.table {
+  color: #0f172a;
+}
+
+.table th {
+  color: #475569;
+}
+
+.table td {
+  border-color: #e2e8f0;
+}
+
+/* Labels */
+label {
+  color: #334155;
 }
 
 /* Buttons */
@@ -45,40 +67,126 @@ body {
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   border: none;
   border-radius: 10px;
-}
-
-.btn-success {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  border: none;
-  border-radius: 10px;
-}
-
-/* Table */
-.table {
-  background: white;
-}
-
-.table thead {
-  background: #111827;
+  font-weight: 500;
   color: white;
 }
 
-/* Category badge */
-.category-badge {
-  background: #4f46e5;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 12px;
+.btn-primary:hover {
+  opacity: 0.9;
 }
 
-/* Mobile spacing */
-@media (max-width: 768px) {
-  .custom-card {
-    padding: 15px;
-  }
+/* Gradient cards */
+.card-gradient {
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+}
 
-  h2, h3 {
-    font-size: 20px;
-  }
+.year-card {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+}
+
+.total-card {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+}
+
+/* =========================
+   BOOTSTRAP DARK MODE FIX
+========================= */
+
+[data-bs-theme="dark"] body {
+  background: linear-gradient(135deg, #020617, #0f172a);
+}
+
+[data-bs-theme="dark"] .custom-card {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+  background: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+}
+
+[data-bs-theme="dark"] .table {
+  color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] label {
+  color: #cbd5f5;
+}
+
+/* =========================
+   HEADINGS
+========================= */
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+}
+
+/* =========================
+   FORCE TEXT VISIBILITY IN DARK MODE
+========================= */
+
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] h6 {
+    color: #f1f5f9 !important;
+}
+
+[data-bs-theme="dark"] p,
+[data-bs-theme="dark"] span,
+[data-bs-theme="dark"] a {
+    color: #cbd5f5 !important;
+}
+
+[data-bs-theme="dark"] .navbar {
+    background-color: #020617 !important;
+}
+
+[data-bs-theme="dark"] .navbar a,
+[data-bs-theme="dark"] .navbar span {
+    color: #f1f5f9 !important;
+}
+
+/* =========================
+   FIX FLASH MESSAGES (DARK MODE)
+========================= */
+
+[data-bs-theme="dark"] .alert {
+    background-color: #1e293b !important;
+    color: #f1f5f9 !important;
+    border: 1px solid #334155 !important;
+}
+
+/* Success */
+[data-bs-theme="dark"] .alert-success {
+    background-color: #064e3b !important;
+    color: #d1fae5 !important;
+}
+
+/* Error / Danger */
+[data-bs-theme="dark"] .alert-danger {
+    background-color: #7f1d1d !important;
+    color: #fee2e2 !important;
+}
+
+/* Info */
+[data-bs-theme="dark"] .alert-info {
+    background-color: #1e3a8a !important;
+    color: #dbeafe !important;
+}
+
+/* Warning */
+[data-bs-theme="dark"] .alert-warning {
+    background-color: #78350f !important;
+    color: #fef3c7 !important;
+}
+[data-bs-theme="dark"] .btn-close {
+    filter: invert(1);
 }

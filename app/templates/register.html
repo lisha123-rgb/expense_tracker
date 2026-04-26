@@ -32,21 +32,20 @@
                     </div>
 
                     <!-- Password -->
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative">
                         <label class="form-label fw-semibold">Password</label>
 
-                        <div class="input-group">
-                            <input type="password"
-                                   name="password"
-                                   id="registerPassword"
-                                   class="form-control"
-                                   placeholder="Enter password"
-                                   required>
+                        <input type="password"
+                               name="password"
+                               id="registerPassword"
+                               class="form-control pe-5"
+                               placeholder="Enter password"
+                               required>
 
-                            <i class="bi bi-eye eye-icon"
-                               id="eyeIcon"
-                               onclick="togglePassword()"></i>
-                        </div>
+                        <i class="bi bi-eye position-absolute"
+                           style="right:15px; top:70%; transform:translateY(-50%); cursor:pointer;"
+                           onclick="togglePassword('registerPassword', this)">
+                        </i>
                     </div>
 
                     <!-- Submit -->
@@ -56,7 +55,6 @@
 
                 </form>
 
-                <!-- Extra UX -->
                 <p class="text-center mt-3 mb-0">
                     Already have an account?
                     <a href="{{ url_for('main.login') }}">Login</a>
@@ -66,21 +64,5 @@
         </div>
     </div>
 </div>
-
-<!-- JS -->
-<script>
-function toggleRegisterPassword() {
-    const input = document.getElementById("registerPassword");
-    const icon = document.getElementById("registerToggleIcon");
-
-    if (input.type === "password") {
-        input.type = "text";
-        icon.classList.replace("bi-eye", "bi-eye-slash");
-    } else {
-        input.type = "password";
-        icon.classList.replace("bi-eye-slash", "bi-eye");
-    }
-}
-</script>
 
 {% endblock %}
