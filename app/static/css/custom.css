@@ -190,3 +190,6 @@ h1, h2, h3, h4, h5 {
 [data-bs-theme="dark"] .btn-close {
     filter: invert(1);
 }
+body {
+  border: 5px solid red !important;
+}
