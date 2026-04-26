@@ -1,4 +1,4 @@
-/* ========== GLOBAL ========== */
+/* Background */
 body {
   background: linear-gradient(to bottom, #f3f4f6, #eef2ff);
   font-family: 'Segoe UI', sans-serif;
@@ -9,83 +9,38 @@ body {
   max-width: 1100px;
 }
 
-/* ========== NAVBAR ========== */
-.navbar {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-
-/* ========== CARDS ========== */
+/* Cards */
 .custom-card {
   background: white;
   border-radius: 16px;
   padding: 20px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-  transition: 0.2s ease;
 }
 
-.custom-card:hover {
-  transform: translateY(-3px);
-}
-
-/* ========== SUMMARY CARDS ========== */
-.summary-blue {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
-  color: white;
-  border-radius: 16px;
-  padding: 25px;
-}
-.summary-blue h2,
-.summary-blue p {
-  color: white;
-}
-
-.summary-dark {
-  background: linear-gradient(135deg, #111827, #1f2937);
-  color: white;
-  border-radius: 16px;
-  padding: 25px;
-}
-.summary-dark h2,
-.summary-dark p {
-  color: white;   /* extra safety */
-}
-
-/* ========== FORMS ========== */
+/* Forms */
 .form-control,
 .form-select {
   border-radius: 10px;
   padding: 10px;
-  border: 1px solid #d1d5db;
 }
 
-.form-control:focus,
-.form-select:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px rgba(99,102,241,0.1);
-}
-
-/* ========== PASSWORD EYE ICON (FIXED) ========== */
+/* Eye icon (FIXED for mobile) */
 .eye-icon {
   position: absolute;
-  right: 15px;
-  top: 38px;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
   color: #6b7280;
   font-size: 18px;
-  z-index: 5;
 }
 
 .eye-icon:hover {
   color: #4f46e5;
 }
 
-/* IMPORTANT: remove input-group extra spacing */
-.input-group {
-  position: relative;
-}
-
-/* ========== BUTTONS ========== */
+/* Buttons */
 .btn-primary {
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   border: none;
@@ -98,14 +53,8 @@ body {
   border-radius: 10px;
 }
 
-.btn-danger {
-  border-radius: 10px;
-}
-
-/* ========== TABLE ========== */
+/* Table */
 .table {
-  border-radius: 12px;
-  overflow: hidden;
   background: white;
 }
 
@@ -114,15 +63,22 @@ body {
   color: white;
 }
 
-.table tbody tr:hover {
-  background: #f3f4f6;
+/* Category badge */
+.category-badge {
+  background: #4f46e5;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
 }
 
-/* ========== TEXT FIX (SAFE, NOT OVERWRITING EVERYTHING) ========== */
-h1, h2, h3, h4, h5 {
-  color: #111827;
-}
+/* Mobile spacing */
+@media (max-width: 768px) {
+  .custom-card {
+    padding: 15px;
+  }
 
-p, label {
-  color: #374151;
+  h2, h3 {
+    font-size: 20px;
+  }
 }

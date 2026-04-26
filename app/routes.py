@@ -5,7 +5,7 @@ from app import db
 from sqlalchemy import func
 from datetime import datetime
 from app.utils import auto_detect_category 
-from flask import abort
+from collections import defaultdict
 
 main = Blueprint("main", __name__)
 
@@ -191,11 +191,11 @@ def dashboard():
 
         if month_key not in expenses_by_month:
             expenses_by_month[month_key] = {
-                "items": [],
+                "expenses": [],
                 "month_total": 0
             }
 
-        expenses_by_month[month_key]["items"].append(expense)
+        expenses_by_month[month_key]["expenses"].append(expense)
         expenses_by_month[month_key]["month_total"] += float(expense.amount)
 
     # ========================

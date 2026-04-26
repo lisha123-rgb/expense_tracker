@@ -83,7 +83,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-success px-4">Add Expense</button>
+            <button class="btn btn-primary w-100 mt-2">Add Expense</button>
 
         </form>
     </div>
@@ -98,43 +98,52 @@
         </h5>
 
         <div class="table-responsive">
-            <table class="table align-middle">
+            <table class="table table-hover align-middle">
 
-                <thead class="table-dark">
+                <thead>
                     <tr>
                         <th>Amount</th>
+                        <th>Category</th>
                         <th>Description</th>
                         <th>Date</th>
-                        <th>Category</th>
                         <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {% for expense in data["items"] %}
+                     {% for expense in data["expenses"] %}
                     <tr>
-                        <td>₹ {{ "%.2f"|format(expense.amount) }}</td>
+                        <td>₹{{ expense.amount }}</td>
+
+                        <td>
+                            <span class="category-badge">
+                                {{ expense.category.name if expense.category else "Others" }}
+                            </span>
+                         </td>
+
                         <td>{{ expense.description }}</td>
                         <td>{{ expense.date }}</td>
-                        <td>{{ expense.category.name }}</td>
 
-                        <td class="d-flex gap-2">
-
-                            <!-- EDIT -->
-                            <a href="{{ url_for('main.edit_expense', expense_id=expense.id) }}"
-                               class="btn btn-sm btn-outline-primary">
-                                Edit
+                        <td>
+                             <a href="{{ url_for('main.edit_expense', expense_id=expense.id) }}"
+                                class="btn btn-sm btn-outline-primary mb-1 w-100">
+                                    Edit
                             </a>
 
-                            <!-- DELETE -->
                             <form method="POST"
-                                  action="{{ url_for('main.delete_expense', expense_id=expense.id) }}">
+                                action="{{ url_for('main.delete_expense', expense_id=expense.id) }}">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                <button class="btn btn-danger btn-sm">
-                                    Delete
+                                <button class="btn btn-sm btn-danger w-100">
+                                        Delete
                                 </button>
                             </form>
+                        </td>
+                    </tr>
 
+                    {% else %}
+                    <tr>
+                         <td colspan="5" class="text-center text-muted">
+                            No expenses for this month
                         </td>
                     </tr>
                     {% endfor %}
