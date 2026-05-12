@@ -5,7 +5,7 @@ A production-ready full-stack web application that enables users to securely tra
 Built with a focus on backend architecture, database design, and deployment practices.
 
 🚀 Live Demo
-🔗 https://web-production-9aa88.up.railway.app
+🔗 https://lishas.pythonanywhere.com/
 
 🧩 Problem Statement
 Managing daily expenses manually is inefficient and lacks insights.
